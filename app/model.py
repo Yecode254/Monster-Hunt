@@ -21,15 +21,6 @@ class Player(Base):
     achievements = relationship("Achievement", secondary="player_achievements")
     
 
-class MonsterSpecies(Base):
-    __tablename__ = 'monster_species'
-    id = Column(Integer,primary_key = True)
-    name = Column (String, nullable = False)
-    type = Column(String, nullable=False)  
-    base_stats = Column(String)  
-    rarity = Column(Float)  
-    abilities = Column(String)  
-
 class PlayerMonster(Base):
     __tablename__ = 'player_monsters'
     id = Column(Integer, primary_key=True)
@@ -54,17 +45,6 @@ class MonsterSpecies(Base):
 #base_stats = jsON format storing HP, Attack, Defense
 #rarity = Probability of encountering/catching
 
-class PlayerMonster(Base):
-    __tablename__ = 'player_monsters'
-    id = Column(Integer, primary_key=True)
-    player_id = Column(Integer, ForeignKey('players.id'))
-    species_id = Column(Integer, ForeignKey('monster_species.id'))
-    level = Column(Integer, default=1)
-    current_hp = Column(Integer)
-    player = relationship("Player", back_populates="monsters")
-    species = relationship("MonsterSpecies")
-
-Player.monsters = relationship("PlayerMonster", back_populates="player")
 
 
 class Battle(Base):
@@ -101,5 +81,5 @@ class PlayerAchievement(Base):
 
 if __name__ == '__main__':
     pass
-engine= create_engine('sqlite:///Monster_inc.db')
+engine= create_engine('sqlite:///monster_inc.db')
 Base.metadata.create_all(engine)
